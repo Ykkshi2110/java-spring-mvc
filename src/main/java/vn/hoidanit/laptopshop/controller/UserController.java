@@ -34,6 +34,13 @@ public class UserController {
     }
 
     @RequestMapping("/admin/user")
+    public String getDetailUsers(Model model){
+        List<User> users = this.userService.getAllUser();
+        model.addAttribute("users1", users); // key,value
+        return "/admin/user/TableUser";
+    }
+
+    @RequestMapping("/admin/user/create") // Không khai báo method thì mặc định là GET
     public String getCreateUserPage(Model model) {
         model.addAttribute("newUser", new User());
         return "/admin/user/create";
@@ -41,9 +48,8 @@ public class UserController {
 
     @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
     public String createUserPage(Model model, @ModelAttribute("newUser") User peter) {
-        System.out.println("run here " + peter);
         this.userService.handleSaveUser(peter);
-        return "hello";
+        return "redirect:/admin/user";
     }
 
 }
