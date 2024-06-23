@@ -28,6 +28,10 @@ public class UserService {
         return peter;
     }
 
+    public User getDetailUserById(long id){
+        return this.userRepository.findById(id);
+    }
+
     public String handleHello() {
         return "Hello from service";
     }

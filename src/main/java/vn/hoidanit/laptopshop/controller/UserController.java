@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.UserService;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class UserController {
@@ -27,17 +30,24 @@ public class UserController {
         System.out.println(arrsUser);
         System.out.println(arrsUserFindByEmail);
 
-        String test = this.userService.handleHello();
-        model.addAttribute("peter", test);
-        model.addAttribute("quocbui", "Con mẹ mày nhé thằng chó Peter");
+        // String test = this.userService.handleHello();
+        // model.addAttribute("peter", test);
+        // model.addAttribute("quocbui", "Con mẹ mày nhé thằng chó Peter");
         return "hello";
     }
 
     @RequestMapping("/admin/user")
-    public String getDetailUsers(Model model){
+    public String getTableUsers(Model model){
         List<User> users = this.userService.getAllUser();
         model.addAttribute("users1", users); // key,value
-        return "/admin/user/TableUser";
+        return "/admin/user/table-user";
+    }
+
+    @GetMapping("/admin/user/{id}")
+    public String getDetailUsersPage(Model model, @PathVariable("id") long id){
+        User user_detail = this.userService.getDetailUserById(id);
+        model.addAttribute("user_detail", user_detail);
+        return "/admin/user/detail-user";
     }
 
     @RequestMapping("/admin/user/create") // Không khai báo method thì mặc định là GET

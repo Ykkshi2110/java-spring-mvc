@@ -43,9 +43,9 @@
                                             <td>${user.email}</td>
                                             <td>${user.fullName}</td>
                                             <td>
-                                                <button class="btn btn-outline-success">View</button>
-                                                <button class="btn btn-outline-warning mx-auto">Update</button>
-                                                <button class="btn btn-outline-danger">Delete</button>
+                                                <a href="/admin/user/${user.id}" class="btn btn-outline-success">View</a>
+                                                <a href="#" class="btn btn-outline-warning mx-auto">Update</a>
+                                                <a href="#" class="btn btn-outline-danger">Delete</a>
                                             </td>
                                         </tr>
                                     </c:forEach>
