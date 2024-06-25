@@ -7,12 +7,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.UserService;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+
+
 
 @Controller
 public class UserController {
@@ -48,6 +50,26 @@ public class UserController {
         User user_detail = this.userService.getDetailUserById(id);
         model.addAttribute("user_detail", user_detail);
         return "/admin/user/detail-user";
+    }
+
+    @RequestMapping("/admin/user/update/{id}")
+    public String getUpdateUserPage(Model model, @PathVariable("id") long id) {
+        User currentUser = this.userService.getDetailUserById(id);
+        model.addAttribute("updateUser", currentUser);
+        return "/admin/user/update-user";
+    }
+
+    // Lấy giá trị trực tiếp từ view thì sử dụng Annotation ModelAttribute
+    @PostMapping("admin/user/update")
+    public String handleUpdateUser(Model model, @ModelAttribute("updateUser") User peter){
+        User currentUser = this.userService.getDetailUserById(peter.getId());
+        if(currentUser != null){
+            peter.setAddress(peter.getAddress());
+            peter.setFullName(peter.getFullName());
+            peter.setPhone(peter.getPhone());
+            this.userService.handleSaveUser(peter);
+        }
+        return "redirect:/admin/user";
     }
 
     @RequestMapping("/admin/user/create") // Không khai báo method thì mặc định là GET
