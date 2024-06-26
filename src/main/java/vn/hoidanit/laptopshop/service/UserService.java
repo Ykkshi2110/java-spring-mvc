@@ -32,6 +32,10 @@ public class UserService {
         return this.userRepository.findById(id);
     }
 
+    public void handleDeleteUserById(long id){
+         this.userRepository.deleteById(id);
+    }
+
     public String handleHello() {
         return "Hello from service";
     }

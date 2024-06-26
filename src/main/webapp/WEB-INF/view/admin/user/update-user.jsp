@@ -31,7 +31,7 @@
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Email:</label>
                                     <form:input type="email" class="form-control" id="exampleInputEmail1"
-                                        aria-describedby="emailHelp" path="email"/>
+                                        aria-describedby="emailHelp" path="email" disabled="true"/>
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputPhoneNumber1" class="form-label">Phone Number:</label>
