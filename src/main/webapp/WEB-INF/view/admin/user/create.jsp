@@ -13,6 +13,17 @@
                 <title>Create User - Hỏi Dân IT</title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                <script>
+                    $(document).ready(() => {
+                        const avatarFile = $("#avatarFile");
+                        avatarFile.change(function (e) {
+                            const imgURL = URL.createObjectURL(e.target.files[0]);
+                            $("#avatarPreview").attr("src", imgURL);
+                            $("#avatarPreview").css({ "display": "block" });
+                        });
+                    });
+                </script>
             </head>
 
             <body class="sb-nav-fixed">
@@ -29,55 +40,63 @@
                                 </ol>
                                 <div>
                                     <div class="mt-5">
-                                        <div class="row g-3">
+                                        <div class="row">
                                             <div class="col-md-6 mx-auto">
                                                 <h3>Create a User</h3>
                                                 <hr />
                                                 <form:form method="post" action="/admin/user/create"
-                                                    modelAttribute="newUser">
-                                                    <div class="col-md-6 mb-3">
+                                                    modelAttribute="newUser" class="row">
+                                                    <div class="col-md-6 col-12 mb-3">
                                                         <label for="exampleInputEmail1"
                                                             class="form-label">Email:</label>
                                                         <form:input type="email" class="form-control"
                                                             id="exampleInputEmail1" aria-describedby="emailHelp"
                                                             path="email" />
                                                     </div>
-                                                    <div class="col-md-6 mb-3">
+                                                    <div class="col-md-6 col-12 mb-3">
                                                         <label for="exampleInputPassword1"
                                                             class="form-label">Password:</label>
                                                         <form:input type="password" class="form-control"
                                                             id="exampleInputPassword1" path="password" />
                                                     </div>
-                                                    <div class="col-md-6 mb-3">
+                                                    <div class="col-md-6 col-12 mb-3">
                                                         <label for="exampleInputPhoneNumber1" class="form-label">Phone
                                                             Number:</label>
                                                         <form:input type="text" class="form-control"
                                                             id="exampleInputPhoneNumber1" path="phone" />
                                                     </div>
-                                                    <div class="col-md-6 mb-3">
+                                                    <div class="col-md-6 col-12 mb-3">
                                                         <label for="exampleInputFullName" class="form-label">Full
                                                             Name:</label>
                                                         <form:input type="text" class="form-control"
                                                             id="exampleInputFullName" path="fullName" />
                                                     </div>
-                                                    <div class="col-md-6 mb-3">
+                                                    <div class="col-md-12 mb-3">
                                                         <label for="exampleInputAddress"
                                                             class="form-label">Address:</label>
                                                         <form:input type="text" class="form-control"
                                                             id="exampleInputAddress" path="address" />
                                                     </div>
-                                                    <div class="col-md-6 mb-3">
+                                                    <div class="col-md-6 col-12 mb-3">
                                                         <label for="exampleInputRole" class="form-label">Role:</label>
-                                                        <select class="form-select" aria-label="Default select example" path="role">
-                                                            <option selected>ADMIN</option>
-                                                            <option value="1">USER</option>
+                                                        <select class="form-select" aria-label="Default select example"
+                                                            path="role">
+                                                            <option value="ADMIN">ADMIN</option>
+                                                            <option value="USER">USER</option>
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-6 mb-3">
+                                                    <div class="col-md-6 col-12 mb-3">
                                                         <label for="formFile" class="form-label">Avatar:</label>
-                                                        <input class="form-control" type="file" id="formFile" path="avatar"/>
+                                                        <input class="form-control" type="file" id="avatarFile"
+                                                            path="avatar" accept=".png, .jpg, .jpeg" />
                                                     </div>
-                                                    <button type="submit" class="btn btn-primary">Create</button>
+                                                    <div class="col-12 mb-3">
+                                                        <img style="max-height: 300px; display: none;"
+                                                            alt="avatar preview" id="avatarPreview">
+                                                    </div>
+                                                    <div class="col-12 mb-5">
+                                                        <button type="submit" class="btn btn-primary">Create</button>
+                                                    </div>
                                                 </form:form>
                                             </div>
                                         </div>
