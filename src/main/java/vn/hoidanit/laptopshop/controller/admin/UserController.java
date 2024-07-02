@@ -1,4 +1,4 @@
-package vn.hoidanit.laptopshop.controller;
+package vn.hoidanit.laptopshop.controller.admin;
 
 import java.util.List;
 
@@ -35,21 +35,21 @@ public class UserController {
     public String getTableUsers(Model model) {
         List<User> users = this.userService.getAllUser();
         model.addAttribute("users1", users); // key,value
-        return "/admin/user/table-user";
+        return "/admin/user/show";
     }
 
     @GetMapping("/admin/user/{id}")
     public String getDetailUsersPage(Model model, @PathVariable("id") long id) {
         User user_detail = this.userService.getDetailUserById(id);
         model.addAttribute("user_detail", user_detail);
-        return "/admin/user/detail-user";
+        return "/admin/user/detail";
     }
 
     @RequestMapping("/admin/user/update/{id}")
     public String getUpdateUserPage(Model model, @PathVariable("id") long id) {
         User currentUser = this.userService.getDetailUserById(id);
         model.addAttribute("updateUser", currentUser);
-        return "/admin/user/update-user";
+        return "/admin/user/update";
     }
 
     // Lấy giá trị trực tiếp từ view thì sử dụng Annotation ModelAttribute
@@ -68,7 +68,7 @@ public class UserController {
     @RequestMapping("/admin/user/delete/{id}")
     public String getDeleteUserPage(Model model, @PathVariable("id") long id) {
         model.addAttribute("deleteUser", new User());
-        return "/admin/user/delete-user";
+        return "/admin/user/delete";
     }
 
     @PostMapping("admin/user/delete")

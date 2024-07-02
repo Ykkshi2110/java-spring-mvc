@@ -10,7 +10,7 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 <meta name="description" content="Hỏi Dân IT - Dự án laptopshop" />
                 <meta name="author" content="Hỏi Dân IT" />
-                <title>Create User - Hỏi Dân IT</title>
+                <title>Update User - Hỏi Dân IT</title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
             </head>
@@ -29,55 +29,43 @@
                                 </ol>
                                 <div>
                                     <div class="mt-5">
-                                        <div class="row g-3">
-                                            <div class="col-md-6 mx-auto">
-                                                <h3>Create a User</h3>
+                                        <div class="row">
+                                            <div class="col-md-6 col-12 mx-auto">
+                                                <h3>Update a User</h3>
                                                 <hr />
-                                                <form:form method="post" action="/admin/user/create"
-                                                    modelAttribute="newUser">
-                                                    <div class="col-md-6 mb-3">
+                                                <form:form method="post" action="/admin/user/update"
+                                                    modelAttribute="updateUser">
+                                                    <div class="mb-3" style="display: none;">
+                                                        <label for="exampleInputID1" class="form-label">Id:</label>
+                                                        <form:input type="text" class="form-control"
+                                                            id="exampleInputID1" path="id" />
+                                                    </div>
+                                                    <div class="mb-3">
                                                         <label for="exampleInputEmail1"
                                                             class="form-label">Email:</label>
                                                         <form:input type="email" class="form-control"
                                                             id="exampleInputEmail1" aria-describedby="emailHelp"
-                                                            path="email" />
+                                                            path="email" disabled="true" />
                                                     </div>
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="exampleInputPassword1"
-                                                            class="form-label">Password:</label>
-                                                        <form:input type="password" class="form-control"
-                                                            id="exampleInputPassword1" path="password" />
-                                                    </div>
-                                                    <div class="col-md-6 mb-3">
+                                                    <div class="mb-3">
                                                         <label for="exampleInputPhoneNumber1" class="form-label">Phone
                                                             Number:</label>
                                                         <form:input type="text" class="form-control"
                                                             id="exampleInputPhoneNumber1" path="phone" />
                                                     </div>
-                                                    <div class="col-md-6 mb-3">
+                                                    <div class="mb-3">
                                                         <label for="exampleInputFullName" class="form-label">Full
                                                             Name:</label>
                                                         <form:input type="text" class="form-control"
                                                             id="exampleInputFullName" path="fullName" />
                                                     </div>
-                                                    <div class="col-md-6 mb-3">
+                                                    <div class="mb-3">
                                                         <label for="exampleInputAddress"
                                                             class="form-label">Address:</label>
                                                         <form:input type="text" class="form-control"
                                                             id="exampleInputAddress" path="address" />
                                                     </div>
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="exampleInputRole" class="form-label">Role:</label>
-                                                        <select class="form-select" aria-label="Default select example" path="role">
-                                                            <option selected>ADMIN</option>
-                                                            <option value="1">USER</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="formFile" class="form-label">Avatar:</label>
-                                                        <input class="form-control" type="file" id="formFile" path="avatar"/>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-primary">Create</button>
+                                                    <button type="submit" class="btn btn-warning">Update</button>
                                                 </form:form>
                                             </div>
                                         </div>
