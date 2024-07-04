@@ -13,6 +13,17 @@
                 <title>Update User - Hỏi Dân IT</title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                <script>
+                    $(document).ready(() => {
+                        const avatarFile = $("#avatarFile");
+                        avatarFile.change(function (e) {
+                            const imgURL = URL.createObjectURL(e.target.files[0]);
+                            $("#avatarPreview").attr("src", imgURL);
+                            $("#avatarPreview").css({ "display": "block" });
+                        });
+                    });
+                </script>
             </head>
 
             <body class="sb-nav-fixed">
@@ -34,7 +45,7 @@
                                                 <h3>Update a User</h3>
                                                 <hr />
                                                 <form:form method="post" action="/admin/user/update"
-                                                    modelAttribute="updateUser">
+                                                    modelAttribute="updateUser" enctype="multipart/form-data">
                                                     <div class="mb-3" style="display: none;">
                                                         <label for="exampleInputID1" class="form-label">Id:</label>
                                                         <form:input type="text" class="form-control"
@@ -64,6 +75,23 @@
                                                             class="form-label">Address:</label>
                                                         <form:input type="text" class="form-control"
                                                             id="exampleInputAddress" path="address" />
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleInputRole" class="form-label">Role:</label>
+                                                        <form:select class="form-select" aria-label="Default select example"
+                                                            path="role.name">
+                                                            <form:option value="ADMIN">ADMIN</form:option>
+                                                            <form:option value="USER">USER</form:option>
+                                                        </form:select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="formFile" class="form-label">Avatar:</label>
+                                                        <input class="form-control" type="file" id="avatarFile"
+                                                            name="peterFile" accept=".png, .jpg, .jpeg" />
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <img style="max-height: 300px; display: none;"
+                                                            alt="avatar preview" id="avatarPreview">
                                                     </div>
                                                     <button type="submit" class="btn btn-warning">Update</button>
                                                 </form:form>

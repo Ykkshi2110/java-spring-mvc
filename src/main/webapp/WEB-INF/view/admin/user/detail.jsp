@@ -39,9 +39,9 @@
                                                     <ul class="list-group list-group-flush">
                                                         <li class="list-group-item">ID: ${user_detail.id}</li>
                                                         <li class="list-group-item">Email: ${user_detail.email}</li>
-                                                        <li class="list-group-item">Full Name: ${user_detail.fullName}
-                                                        </li>
+                                                        <li class="list-group-item">Full Name: ${user_detail.fullName}</li>
                                                         <li class="list-group-item">Address: ${user_detail.address}</li>
+                                                        <li class="list-group-item">Role: ${user_detail.role.name}</li>
                                                     </ul>
                                                 </div>
                                                 <a href="/admin/user"

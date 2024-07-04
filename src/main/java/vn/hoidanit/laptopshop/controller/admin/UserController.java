@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-
 @Controller
 public class UserController {
 
@@ -24,7 +23,7 @@ public class UserController {
     private final UploadService uploadService;
     private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, UploadService uploadService,PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, UploadService uploadService, PasswordEncoder passwordEncoder) {
         this.uploadService = uploadService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
@@ -62,12 +61,16 @@ public class UserController {
 
     // Lấy giá trị trực tiếp từ view thì sử dụng Annotation ModelAttribute
     @PostMapping("admin/user/update")
-    public String handleUpdateUser(Model model, @ModelAttribute("updateUser") User peter) {
+    public String handleUpdateUser(Model model, @ModelAttribute("updateUser") User peter,
+            @RequestParam("peterFile") MultipartFile file) {
         User currentUser = this.userService.getDetailUserById(peter.getId());
         if (currentUser != null) {
             currentUser.setAddress(peter.getAddress());
             currentUser.setFullName(peter.getFullName());
             currentUser.setPhone(peter.getPhone());
+            currentUser.setRole(this.userService.getRoleByName(peter.getRole().getName()));
+            String updateAvatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+            currentUser.setAvatar(updateAvatar);
             this.userService.handleSaveUser(currentUser);
         }
         return "redirect:/admin/user";
@@ -93,7 +96,7 @@ public class UserController {
 
     @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
     public String createUserPage(Model model, @ModelAttribute("newUser") User peter,
-        @RequestParam("peterFile") MultipartFile file) {
+            @RequestParam("peterFile") MultipartFile file) {
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
         String hashPassword = this.passwordEncoder.encode(peter.getPassword());
         peter.setAvatar(avatar);
