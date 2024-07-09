@@ -36,7 +36,7 @@
                                 <h1 class="mt-4">Manage Product</h1>
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Users</li>
+                                    <li class="breadcrumb-item active">Products</li>
                                 </ol>
                                 <div>
                                     <div class="mt-5">
@@ -47,30 +47,50 @@
                                                 <form:form method="post" action="/admin/product/create" modelAttribute="newProduct"
                                                      class="row" enctype="multipart/form-data">
                                                     <div class="col-md-6 col-12 mb-3">
+                                                        <c:set var="errorName">
+                                                            <form:errors path="name"  cssClass="invalid-feedback"/>
+                                                        </c:set>
                                                         <label for="exampleInputName1" class="form-label">Name:</label>
-                                                        <form:input type="text" class="form-control"
+                                                        <form:input type="text" class="form-control ${not empty errorName ? 'is-invalid' : ''}"
                                                             id="exampleInputName1" path="name" />
+                                                            ${errorName}
                                                     </div>
                                                     <div class="col-md-6 col-12 mb-3">
+                                                        <c:set var="errorPrice">
+                                                            <form:errors path="price"  cssClass="invalid-feedback"/>
+                                                        </c:set>
                                                         <label for="exampleInputPrice1" class="form-label">Price:</label>
-                                                        <form:input type="text" class="form-control"
+                                                        <form:input type="number" class="form-control ${not empty errorPrice ? 'is-invalid' : ''}"
                                                             id="exampleInputPrice1" path="price" />
+                                                            ${errorPrice}
                                                     </div>
                                                     <div class="col-12 mb-3">
+                                                        <c:set var="errorDetailDesc">
+                                                            <form:errors path="detailDesc"  cssClass="invalid-feedback"/>
+                                                        </c:set>
                                                         <label for="exampleInputDetailDesc1" class="form-label">Detail Description:</label>
-                                                        <form:textarea type="text" class="form-control"
+                                                        <form:textarea type="text" class="form-control ${not empty errorDetailDesc ? 'is-invalid' : ''}"
                                                             id="exampleInputDetailDesc1" path="detailDesc" ></form:textarea>   
+                                                            ${errorDetailDesc}
                                                     </div>
                                                     <div class="col-md-6 col-12 mb-3">
+                                                        <c:set var="errorShortDesc">
+                                                            <form:errors path="shortDesc"  cssClass="invalid-feedback"/>
+                                                        </c:set>
                                                         <label for="exampleInputShortDesc" class="form-label">Short Description:</label>
-                                                        <form:input type="text" class="form-control"
+                                                        <form:input type="text" class="form-control ${not empty errorShortDesc ? 'is-invalid' : ''}"
                                                             id="exampleInputShortDesc" path="shortDesc" />
+                                                            ${errorShortDesc}
                                                     </div>
                                                     <div class="col-md-6 col-12 mb-3">
+                                                        <c:set var="errorQuantity">
+                                                            <form:errors path="quantity"  cssClass="invalid-feedback"/>
+                                                        </c:set>
                                                         <label for="exampleInputQuantity"
                                                             class="form-label">Quantity:</label>
-                                                        <form:input type="text" class="form-control"
+                                                        <form:input type="number" class="form-control ${not empty errorQuantity ? 'is-invalid' : ''}"
                                                             id="exampleInputQuantity" path="quantity" />
+                                                            ${errorQuantity}
                                                     </div>
                                                     <div class="col-md-6 col-12 mb-3">
                                                         <label for="exampleInputFactory" class="form-label">Factory:</label>
