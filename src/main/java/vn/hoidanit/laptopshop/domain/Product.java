@@ -46,11 +46,6 @@ public class Product {
     private String factory; // Nhà sản xuất
     private String target; // Tiêu chí sử dụng
 
-    // product - many => one - order
-    // @ManyToOne
-    // @JoinColumn(name = "product_id")
-    // private Order orders;
-
     public long getId() {
         return id;
     }
