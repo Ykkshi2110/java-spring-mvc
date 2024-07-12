@@ -76,28 +76,39 @@ public class ProductController {
     @GetMapping("/admin/product/update/{id}")
     public String getUpdateProductPage(Model model, @PathVariable("id") long id) {
         Optional<Product> myPro = this.productService.getProductById(id);
-        model.addAttribute("updateProduct", myPro.get());
+        model.addAttribute("newProduct", myPro.get());
         return "/admin/product/update";
     }
     
     @PostMapping("/admin/product/update")
-    public String handleUpdateProduct(Model model, @ModelAttribute("updateProduct") @Valid Product myPro, BindingResult updateProductBindingResult, @RequestParam("productFile") MultipartFile file) {
-        if (updateProductBindingResult.hasErrors()){
-            return "/admin/product/update";
+    public String handleUpdateProduct(@ModelAttribute("newProduct") @Valid Product pr,
+            BindingResult newProductBindingResult,
+            @RequestParam("hoidanitFile") MultipartFile file) {
+
+        // validate
+        if (newProductBindingResult.hasErrors()) {
+            return "admin/product/update";
         }
-        Product currentProduct = this.productService.fetchProductById(myPro.getId()).get();
-        if(currentProduct != null){
-            currentProduct.setName(myPro.getName());
-            currentProduct.setPrice(myPro.getPrice());
-            currentProduct.setDetailDesc(myPro.getDetailDesc());
-            currentProduct.setShortDesc(myPro.getShortDesc());
-            currentProduct.setQuantity(myPro.getQuantity());
-            currentProduct.setFactory(myPro.getFactory());
-            currentProduct.setTarget(myPro.getTarget());
-            String updateImage = this.uploadService.handleSaveUploadFile(file, "product");
-            currentProduct.setImage(updateImage);
+
+        Product currentProduct = this.productService.fetchProductById(pr.getId()).get();
+        if (currentProduct != null) {
+            // update new image
+            if (!file.isEmpty()) {
+                String img = this.uploadService.handleSaveUploadFile(file, "product");
+                currentProduct.setImage(img);
+            }
+
+            currentProduct.setName(pr.getName());
+            currentProduct.setPrice(pr.getPrice());
+            currentProduct.setQuantity(pr.getQuantity());
+            currentProduct.setDetailDesc(pr.getDetailDesc());
+            currentProduct.setShortDesc(pr.getShortDesc());
+            currentProduct.setFactory(pr.getFactory());
+            currentProduct.setTarget(pr.getTarget());
+
             this.productService.handleSaveProduct(currentProduct);
         }
+
         return "redirect:/admin/product";
     }
 
