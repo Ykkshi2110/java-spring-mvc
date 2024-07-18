@@ -46,21 +46,21 @@ public class UserController {
     public String getTableUsers(Model model) {
         List<User> users = this.userService.getAllUser();
         model.addAttribute("users1", users); // key,value
-        return "/admin/user/show";
+        return "admin/user/show";
     }
 
     @GetMapping("/admin/user/{id}")
     public String getDetailUsersPage(Model model, @PathVariable("id") long id) {
         User user_detail = this.userService.getDetailUserById(id);
         model.addAttribute("user_detail", user_detail);
-        return "/admin/user/detail";
+        return "admin/user/detail";
     }
 
     @RequestMapping("/admin/user/update/{id}")
     public String getUpdateUserPage(Model model, @PathVariable("id") long id) {
         User currentUser = this.userService.getDetailUserById(id);
         model.addAttribute("updateUser", currentUser);
-        return "/admin/user/update";
+        return "admin/user/update";
     }
 
     // Lấy giá trị trực tiếp từ view thì sử dụng Annotation ModelAttribute
@@ -83,7 +83,7 @@ public class UserController {
     @RequestMapping("/admin/user/delete/{id}")
     public String getDeleteUserPage(Model model, @PathVariable("id") long id) {
         model.addAttribute("deleteUser", new User());
-        return "/admin/user/delete";
+        return "admin/user/delete";
     }
 
     @PostMapping("admin/user/delete")
@@ -95,7 +95,7 @@ public class UserController {
     @RequestMapping("/admin/user/create") // Không khai báo method thì mặc định là GET
     public String getCreateUserPage(Model model) {
         model.addAttribute("newUser", new User());
-        return "/admin/user/create";
+        return "admin/user/create";
     }
 
     @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
@@ -108,7 +108,7 @@ public class UserController {
 
         //validate
         if (newUserBindingResult.hasErrors()){
-            return "/admin/user/create";
+            return "admin/user/create";
         }
 
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");

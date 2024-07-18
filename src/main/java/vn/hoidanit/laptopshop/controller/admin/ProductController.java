@@ -115,7 +115,7 @@ public class ProductController {
     @RequestMapping("/admin/product/delete/{id}")
     public String getDeleteUserPage(Model model, @PathVariable("id") long id) {
         model.addAttribute("deleteProduct", new Product());
-        return "/admin/product/delete";
+        return "admin/product/delete";
     }
 
     @PostMapping("admin/product/delete")

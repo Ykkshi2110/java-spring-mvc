@@ -30,7 +30,7 @@ public class User {
 
     @NotNull
     @Size(min = 2, message="Password phải có tối thiểu 2 kí tự")
-    @StrongPassword(message = "Password trên 8 kí tự và không chứa các kí tự đặc biệt")
+    @StrongPassword(message = "Password trên 8 kí tự, chứa kí tự viết hoa, số, kí tự đặc biệt")
     private String password;
 
     @NotNull

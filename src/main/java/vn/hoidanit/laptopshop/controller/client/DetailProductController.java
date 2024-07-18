@@ -21,7 +21,7 @@ public class DetailProductController {
     public String getMethodName(Model model, @PathVariable long id) {
         Product myPro = this.productService.fetchProductById(id).get();
         model.addAttribute("detailPro", myPro);
-        return "/client/product/detail";
+        return "client/product/detail";
     }
     
 }

@@ -42,18 +42,19 @@ public class HomePageController {
         @GetMapping("/register")
         public String getRegisterPage(Model model) {
             model.addAttribute("registerUser", new RegisterDTO());
-            return "/client/auth/register";
+            return "client/auth/register";
         }
 
+        // return về view thì không cần dấu / trước folder vì sẽ bị lỗi "//" gây nguy hại cho web
         @GetMapping("/login")
         public String getLoginPage() {
-            return "/client/auth/login";
+            return "client/auth/login";
         }
 
         @PostMapping("/register")
         public String handleRegister(@ModelAttribute("registerUser") @Valid RegisterDTO registerDTO, BindingResult bindingResult) {
             if (bindingResult.hasErrors()){
-                return "/client/auth/register";
+                return "client/auth/register";
             }
     
             User user = this.userService.registerDTOtoUser(registerDTO);
