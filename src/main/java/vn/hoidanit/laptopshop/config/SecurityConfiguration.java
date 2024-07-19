@@ -71,9 +71,11 @@ public class SecurityConfiguration {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement((sessionManagement) -> sessionManagement
+                    // Nếu chưa có session thì tạo session mới 
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-
+                    // Nếu session hết hạn thì tự động logout
                         .invalidSessionUrl("/logout?expired")
+                    // Đăng nhập tối đa trên mấy thiết bị tại 1 thời điểm
                         .maximumSessions(1)
                         .maxSessionsPreventsLogin(false))
                 .logout(logout -> logout.deleteCookies("JSESSIONID").invalidateHttpSession(true))
