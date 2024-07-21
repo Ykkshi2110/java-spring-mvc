@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -29,7 +30,7 @@ public class User {
     private String email;
 
     @NotNull
-    @Size(min = 2, message="Password phải có tối thiểu 2 kí tự")
+    @Size(min = 2, message = "Password phải có tối thiểu 2 kí tự")
     @StrongPassword(message = "Password trên 8 kí tự, chứa kí tự viết hoa, số, kí tự đặc biệt")
     private String password;
 
@@ -41,14 +42,18 @@ public class User {
     private String phone;
     private String avatar;
 
-    // User many - to one - role 
+    // User many - to one - role
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
 
-    // User - one => many - order 
-    @OneToMany( mappedBy = "user")
+    // User - one => many - order
+    @OneToMany(mappedBy = "user")
     List<Order> orders;
+
+    // User - one => one - cart
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
 
     public Role getRole() {
         return role;
@@ -114,22 +119,27 @@ public class User {
         this.phone = phone;
     }
 
-    
-        public String getAvatar() {
-            return avatar;
-        }
-    
-        public void setAvatar(String avatar) {
-            this.avatar = avatar;
-        }
-    
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     @Override
     public String toString() {
-        return "User [id=" + this.id + ", email=" + this.email + ", password=" + this.password + ", fullName=" + this.fullName
+        return "User [id=" + this.id + ", email=" + this.email + ", password=" + this.password + ", fullName="
+                + this.fullName
                 + ", address=" + this.address + ", phone=" + this.phone + ", avatar=" + this.avatar + "]";
     }
 
-    
+    public Cart getCarts() {
+        return cart;
+    }
+
+    public void setCarts(Cart cart) {
+        this.cart = cart;
+    }
 
 }

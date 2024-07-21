@@ -10,6 +10,7 @@ import vn.hoidanit.laptopshop.domain.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
+    @SuppressWarnings("unchecked")
     Product save(Product laptop);
     List <Product> findAll();
     Optional<Product> findById(long id);
