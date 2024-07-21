@@ -13,10 +13,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class DetailProductController {
+public class ItemsController {
     private final ProductService productService;
 
-    public DetailProductController(ProductService productService) {
+    public ItemsController(ProductService productService) {
         this.productService = productService;
     }
 
@@ -33,8 +33,13 @@ public class DetailProductController {
         long productId = id;
         // Vì getAttribute là 1 object nên phải ép kiểu sang String
         String email =(String) session.getAttribute("email");
-        this.productService.hanldeAddProductToCart(email, productId); 
+        this.productService.hanldeAddProductToCart(email, productId, session); 
         return "redirect:/";
+    }
+
+    @GetMapping("/cart")
+    public String getCartPage(){
+        return "client/cart/show";
     }
 
 }
