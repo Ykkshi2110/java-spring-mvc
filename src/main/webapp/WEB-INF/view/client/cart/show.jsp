@@ -88,17 +88,20 @@
                           </tr>
                         </thead>
                         <tbody>
+                           <c:forEach var="cartDetail" items="${cartDetails1}">
                             <tr>
                                 <th scope="row">
                                     <div class="d-flex align-items-center">
-                                        <img src="/client/img/vegetable-item-3.png" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                                        <img src="/images/product/${cartDetail.products.image}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
                                     </div>
                                 </th>
                                 <td>
-                                    <p class="mb-0 mt-4">Big Banana</p>
+                                    <p class="mb-0 mt-4">
+                                        <a href="/product/${cartDetail.products.id}" target="_blank">${cartDetail.products.name}</a>
+                                    </p>
                                 </td>
                                 <td>
-                                    <p class="mb-0 mt-4">2.99 $</p>
+                                    <p class="mb-0 mt-4"><fmt:formatNumber type="number" value="${cartDetail.products.price}"/>đ</p>
                                 </td>
                                 <td>
                                     <div class="input-group quantity mt-4" style="width: 100px;">
@@ -116,44 +119,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <p class="mb-0 mt-4">2.99 $</p>
-                                </td>
-                                <td>
-                                    <button class="btn btn-md rounded-circle bg-light border mt-4" >
-                                        <i class="fa fa-times text-danger"></i>
-                                    </button>
-                                </td>
-                            
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <div class="d-flex align-items-center">
-                                        <img src="/client/img/vegetable-item-5.jpg" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="" alt="">
-                                    </div>
-                                </th>
-                                <td>
-                                    <p class="mb-0 mt-4">Potatoes</p>
-                                </td>
-                                <td>
-                                    <p class="mb-0 mt-4">2.99 $</p>
-                                </td>
-                                <td>
-                                    <div class="input-group quantity mt-4" style="width: 100px;">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
-                                            <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
-                                        <input type="text" class="form-control form-control-sm text-center border-0" value="1">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="mb-0 mt-4">2.99 $</p>
+                                    <p class="mb-0 mt-4"><fmt:formatNumber type="number" value="${cartDetail.products.price * cartDetail.quantity}"/>đ</p>
                                 </td>
                                 <td>
                                     <button class="btn btn-md rounded-circle bg-light border mt-4" >
@@ -161,42 +127,7 @@
                                     </button>
                                 </td>
                             </tr>
-                            <tr>
-                                <th scope="row">
-                                    <div class="d-flex align-items-center">
-                                        <img src="/client/img/vegetable-item-2.jpg" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="" alt="">
-                                    </div>
-                                </th>
-                                <td>
-                                    <p class="mb-0 mt-4">Awesome Brocoli</p>
-                                </td>
-                                <td>
-                                    <p class="mb-0 mt-4">2.99 $</p>
-                                </td>
-                                <td>
-                                    <div class="input-group quantity mt-4" style="width: 100px;">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
-                                            <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
-                                        <input type="text" class="form-control form-control-sm text-center border-0" value="1">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="mb-0 mt-4">2.99 $</p>
-                                </td>
-                                <td>
-                                    <button class="btn btn-md rounded-circle bg-light border mt-4" >
-                                        <i class="fa fa-times text-danger"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                           </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -208,7 +139,7 @@
                                 <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
                                 <div class="d-flex justify-content-between mb-4">
                                     <h5 class="mb-0 me-4">Subtotal:</h5>
-                                    <p class="mb-0">$96.00</p>
+                                    <p class="mb-0"><fmt:formatNumber type="number" value="${totalPrice}"/>đ</p>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <h5 class="mb-0 me-4">Shipping</h5>

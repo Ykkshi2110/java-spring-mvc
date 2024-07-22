@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartDetail;
@@ -98,5 +96,9 @@ public class ProductService {
                 }
             }
         }
+    }
+
+    public Cart fetchByUser (User user){
+        return this.cartRepository.findByUser(user);
     }
 }

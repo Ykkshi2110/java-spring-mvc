@@ -57,7 +57,8 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
             session.setAttribute("avatar", user.getAvatar());
             session.setAttribute("id", user.getId());
             session.setAttribute("email", user.getEmail());
-            long sum = user.getCarts().getSum();
+            // check người dùng không có giỏ hàng thì gán bằng 0 và ngược lại
+            long sum = user.getCarts() == null ? 0 : user.getCarts().getSum();
             session.setAttribute("sum", sum);
         }
     }
