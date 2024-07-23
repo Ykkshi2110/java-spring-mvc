@@ -35,7 +35,7 @@ public class ItemsController {
     }
 
     @PostMapping("/add-product-to-cart/{id}")
-    public String postMethodName(@PathVariable("id") long id, HttpServletRequest request) {
+    public String addProductToCart(@PathVariable("id") long id, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         long productId = id;
         // Vì getAttribute là 1 object nên phải ép kiểu sang String
@@ -65,6 +65,15 @@ public class ItemsController {
         model.addAttribute("totalPrice", totalPrice);
         return "client/cart/show";
     }
+
+    @PostMapping("/delete-cart-product/{id}")
+    public String deleteCartProduct(@PathVariable("id") long id, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        long cartDetailId = id;  
+        this.productService.handleDeleteProductInCart(cartDetailId, session);       
+        return "redirect:/cart";
+    }
+    
 
 
 }

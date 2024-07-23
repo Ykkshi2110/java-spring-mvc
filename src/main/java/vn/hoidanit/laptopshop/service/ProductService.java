@@ -101,4 +101,21 @@ public class ProductService {
     public Cart fetchByUser (User user){
         return this.cartRepository.findByUser(user);
     }
+
+    public void handleDeleteProductInCart (long id, HttpSession session){
+        CartDetail cartDetail = this.cartDetailRepository.findById(id);
+        Cart currentCart = cartDetail.getCarts();
+        this.cartDetailRepository.deleteById(id);
+
+       long s = currentCart.getSum();
+       if(s > 1){
+            s -= 1;
+            currentCart.setSum(s);
+            this.cartRepository.save(currentCart);
+            session.setAttribute("sum", s);
+       } else {
+            this.cartRepository.delete(currentCart);
+            session.setAttribute("sum", 0);
+       }
+    }
 }
