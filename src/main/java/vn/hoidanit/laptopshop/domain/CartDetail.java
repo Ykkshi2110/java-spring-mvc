@@ -60,11 +60,11 @@ public class CartDetail {
         this.cart = cart;
     }
 
-    public Product getProducts() {
+    public Product getProduct() {
         return product;
     }
 
-    public void setProducts(Product product) {
+    public void setProduct(Product product) {
         this.product = product;
     }
 

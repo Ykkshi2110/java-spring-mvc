@@ -1,5 +1,6 @@
 package vn.hoidanit.laptopshop.controller.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -52,7 +53,9 @@ public class ItemsController {
 
         // join 2 bảng lại với nhau để lấy ra cartDetail của người dùng đó 
         Cart cart = this.productService.fetchByUser(currentUser);
-        List<CartDetail> cartDetails = cart.getCart_details();
+
+        // Nếu người dùng có giỏ hàng rỗng thì cartDetail gán bằng mảng rỗng và ngược lại
+        List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCart_details();
 
         double totalPrice = 0;
         for (CartDetail cd : cartDetails){

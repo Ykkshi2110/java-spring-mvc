@@ -80,7 +80,7 @@ public class ProductService {
                 // Nếu sản phẩm đó chưa có trong giỏ hàng
                 if (oldCartDetail == null) {
                     cartDetail.setCarts(cart);
-                    cartDetail.setProducts(realProduct);
+                    cartDetail.setProduct(realProduct);
                     cartDetail.setPrice(realProduct.getPrice());
                     cartDetail.setQuantity(1);
                     this.cartDetailRepository.save(cartDetail);
