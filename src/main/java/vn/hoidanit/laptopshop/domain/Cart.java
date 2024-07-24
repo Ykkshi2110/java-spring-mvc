@@ -54,12 +54,12 @@ public class Cart {
         this.user = user;
     }
 
-    public List<CartDetail> getCart_details() {
+    public List<CartDetail> getCartDetail() {
         return cartDetail;
     }
 
-    public void setCart_details(List<CartDetail> cart_details) {
-        this.cartDetail = cart_details;
+    public void setCartDetail(List<CartDetail> cartDetail) {
+        this.cartDetail = cartDetail;
     }
 
     @Override

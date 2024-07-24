@@ -98,24 +98,37 @@ public class ProductService {
         }
     }
 
-    public Cart fetchByUser (User user){
+    public Cart fetchByUser(User user) {
         return this.cartRepository.findByUser(user);
     }
 
-    public void handleDeleteProductInCart (long id, HttpSession session){
-        CartDetail cartDetail = this.cartDetailRepository.findById(id);
-        Cart currentCart = cartDetail.getCarts();
-        this.cartDetailRepository.deleteById(id);
+    public void handleDeleteProductInCart(long id, HttpSession session) {
+        Optional<CartDetail> cartDetail = this.cartDetailRepository.findById(id);
+        if (cartDetail.isPresent()) {
+            Cart currentCart = cartDetail.get().getCarts();
+            this.cartDetailRepository.deleteById(id);
 
-       long s = currentCart.getSum();
-       if(s > 1){
-            s -= 1;
-            currentCart.setSum(s);
-            this.cartRepository.save(currentCart);
-            session.setAttribute("sum", s);
-       } else {
-            this.cartRepository.delete(currentCart);
-            session.setAttribute("sum", 0);
-       }
+            long s = currentCart.getSum();
+            if (s > 1) {
+                s -= 1;
+                currentCart.setSum(s);
+                this.cartRepository.save(currentCart);
+                session.setAttribute("sum", s);
+            } else {
+                this.cartRepository.delete(currentCart);
+                session.setAttribute("sum", 0);
+            }
+        }
+    }
+
+    public void handleUpdateCartBeforeCheckOut(List<CartDetail> cartDetails) {
+        for (CartDetail cartDetail : cartDetails) {
+            Optional<CartDetail> cartDetailOptional = this.cartDetailRepository.findById(cartDetail.getId());
+            if(cartDetailOptional.isPresent()){
+                CartDetail currentCartDetail =  cartDetailOptional.get();
+                currentCartDetail.setQuantity(cartDetail.getQuantity());
+                this.cartDetailRepository.save(currentCartDetail);
+            }
+        }
     }
 }
