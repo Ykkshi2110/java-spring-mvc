@@ -34,7 +34,7 @@ public class Order {
     private User user;
 
     @OneToMany(mappedBy = "order")
-    private List<Order_detail> order_detail;
+    private List<OrderDetail> orderDetail;
 
     public long getId() {
         return id;
@@ -82,6 +82,24 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<OrderDetail> getOrderDetail() {
+        return orderDetail;
+    }
+
+    public void setOrderDetail(List<OrderDetail> orderDetail) {
+        this.orderDetail = orderDetail;
     }
 
     @Override

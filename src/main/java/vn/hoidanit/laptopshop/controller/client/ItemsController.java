@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartDetail;
-import vn.hoidanit.laptopshop.domain.Order;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.ProductService;
@@ -109,7 +108,11 @@ public class ItemsController {
             @RequestParam("receiverAddress") String receiverAddress,
             @RequestParam("receiverPhone") String receiverPhone) {
 
+            User currentUser = new User();
             HttpSession session = request.getSession(false);
+            long id = (long) session.getAttribute("id");
+            currentUser.setId(id);
+            this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone);
         return "redirect:/";
     }
 
