@@ -103,6 +103,11 @@ public class ItemsController {
         return "redirect:/checkout";
     }
 
+    @GetMapping("/thanks")
+    public String getThankYouPage(){
+        return "client/cart/thanks";
+    }
+
     @PostMapping("/place-order")
     public String handlePlaceOrder(HttpServletRequest request, @RequestParam("receiverName") String receiverName,
             @RequestParam("receiverAddress") String receiverAddress,
@@ -113,7 +118,7 @@ public class ItemsController {
             long id = (long) session.getAttribute("id");
             currentUser.setId(id);
             this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone);
-        return "redirect:/";
+        return "redirect:/thanks";
     }
 
 }

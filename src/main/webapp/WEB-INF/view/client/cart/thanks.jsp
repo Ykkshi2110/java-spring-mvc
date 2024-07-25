@@ -1,15 +1,35 @@
-<html>
-    <%@page contentType="text/html" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+
+<html lang="en">
 <head>
-  <title>Thank You!</title>
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400i' rel='stylesheet' type='text/css'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/client/css/thanksPage.css" rel="stylesheet">
+    
 </head>
-
 <body>
-  <div id="thankyou">
-    <h2 id="h2thankyou">Đặt hàng thành công! Cảm ơn bạn vì đã đặt hàng!</h2>
-  </div>
-  <div><a id="linkback" href="">Quay lại trang chính!</a></div>
+    <div class=content>
+        <div class="wrapper-1">
+          <div class="wrapper-2">
+            <h1>Đặt hàng thành công !</h1>
+            <p>Cảm ơn bạn vì đã mua hàng</p>
+            <p>Sản phẩm sẽ được giao đến sớm nhất có thể  </p>
+            <button class="go-home">
+                <a href="/">Quay về trang chủ</a>
+            </button>
+          </div>
+          <div class="footer-like">
+            <p>Bạn còn thiếu gì không?
+             <a href="/">Xem các sản phẩm mới nhất</a>
+            </p>
+          </div>
+      </div>
+      </div>
+      
+      
+      
+      <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Source+Sans+Pro" rel="stylesheet">
 </body>
-
 </html>

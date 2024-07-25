@@ -38,20 +38,20 @@ public class ProductController {
     public String getProductForAdminPage(Model model) {
         List<Product> products = this.productService.getAllProduct();
         model.addAttribute("products1", products); // key, value
-        return "/admin/product/show";
+        return "admin/product/show";
     }
 
     @GetMapping("/admin/product/create")
     public String getMethodName(Model model) {
         model.addAttribute("newProduct", new Product());
-        return "/admin/product/create";
+        return "admin/product/create";
     }
 
     @GetMapping("/admin/product/{id}")
     public String getDetailProductPage(Model model, @PathVariable("id") long id) {
         Product myPro = this.productService.fetchProductById(id).get();
         model.addAttribute("productDetail", myPro);
-        return "/admin/product/detail";
+        return "admin/product/detail";
     }
 
     @PostMapping("/admin/product/create")
@@ -64,7 +64,7 @@ public class ProductController {
 
         // validate
         if (newProductBindingResult.hasErrors()){
-            return "/admin/product/create";
+            return "admin/product/create";
         }
 
         String imgProduct = this.uploadService.handleSaveUploadFile(file, "product");
@@ -77,7 +77,7 @@ public class ProductController {
     public String getUpdateProductPage(Model model, @PathVariable("id") long id) {
         Optional<Product> myPro = this.productService.getProductById(id);
         model.addAttribute("newProduct", myPro.get());
-        return "/admin/product/update";
+        return "admin/product/update";
     }
     
     @PostMapping("/admin/product/update")
