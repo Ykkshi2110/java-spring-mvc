@@ -3,6 +3,9 @@ package vn.hoidanit.laptopshop.controller.admin;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
 
-
 @Controller
 public class ProductController {
 
@@ -34,10 +36,32 @@ public class ProductController {
         this.uploadService = uploadService;
     }
 
+    // @GetMapping("/admin/product")
+    // public String getProductForAdminPage1(Model model) {
+    // List<Product> listProducts =this.productService.fetchProduct();
+    // model.addAttribute("products1", listProducts); // key, value
+    // return "admin/product/show";
+    // }
+
     @GetMapping("/admin/product")
-    public String getProductForAdminPage(Model model) {
-        List<Product> products = this.productService.getAllProduct();
-        model.addAttribute("products1", products); // key, value
+    public String getProduct(Model model,
+            @RequestParam("page") Optional<String> pageOptional) {
+        int page = 1;
+        try {
+            if (pageOptional.isPresent()) {
+                page = Integer.parseInt(pageOptional.get());
+            } else {
+
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        Pageable pageable = PageRequest.of(page - 1, 4);
+        Page<Product> prs = this.productService.getAllProduct(pageable);
+        List<Product> listProducts = prs.getContent();
+        model.addAttribute("products1", listProducts);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", prs.getTotalPages());
         return "admin/product/show";
     }
 
@@ -63,7 +87,7 @@ public class ProductController {
         }
 
         // validate
-        if (newProductBindingResult.hasErrors()){
+        if (newProductBindingResult.hasErrors()) {
             return "admin/product/create";
         }
 
@@ -79,7 +103,7 @@ public class ProductController {
         model.addAttribute("newProduct", myPro.get());
         return "admin/product/update";
     }
-    
+
     @PostMapping("/admin/product/update")
     public String handleUpdateProduct(@ModelAttribute("newProduct") @Valid Product pr,
             BindingResult newProductBindingResult,
@@ -123,6 +147,5 @@ public class ProductController {
         this.productService.handleDeleteProductById(myProduct.getId());
         return "redirect:/admin/product";
     }
-    
 
 }
