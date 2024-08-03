@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpSession;
 import vn.hoidanit.laptopshop.domain.Cart;
@@ -18,6 +19,7 @@ import vn.hoidanit.laptopshop.repository.CartRepository;
 import vn.hoidanit.laptopshop.repository.OrderDetailRepository;
 import vn.hoidanit.laptopshop.repository.OrderRepository;
 import vn.hoidanit.laptopshop.repository.ProductRepository;
+import vn.hoidanit.laptopshop.service.specification.ProductSpecs;
 
 @Service
 public class ProductService {
@@ -39,11 +41,87 @@ public class ProductService {
         this.orderDetailRepository = orderDetailRepository;
     }
 
+    
+
+    public Page<Product> getAllProductWithSpec(Pageable pageable, String name) {
+        return this.productRepository.findAll(ProductSpecs.nameLike(name) ,pageable);
+    }
+
+    public Page<Product> getAllProductWithMinPrice(Pageable pageable, double price) {
+        return this.productRepository.findAll(ProductSpecs.minPrice(price), pageable);
+    }
+
+    public Page<Product> getAllProductWithMaxPrice(Pageable pageable, double price){
+        return this.productRepository.findAll(ProductSpecs.maxPrice(price), pageable);
+    }
+
+    public Page<Product> getAllProductWithFactory (Pageable pageable, String name) {
+        return this.productRepository.findAll(ProductSpecs.factoryName(name), pageable);
+    }
+
+    public Page<Product> getAllProductWithListFactory (Pageable pageable, List<String>factory) {
+        return this.productRepository.findAll(ProductSpecs.matchFactory(factory), pageable);
+    }
+
+    public Page<Product> getProductInRangePrice (Pageable pageable, String price) {
+        if(price.equals("10-toi-15-trieu")) {
+            double minPrice = 10000000;
+            double maxPrice = 15000000;
+            return this.productRepository.findAll(ProductSpecs.rangePrice(minPrice, maxPrice), pageable);
+        } else if (price.equals("15-toi-30-trieu")) {
+            double minPrice = 15000000;
+            double maxPrice = 30000000;
+            return this.productRepository.findAll(ProductSpecs.rangePrice(minPrice, maxPrice), pageable);
+        } else {
+            return this.productRepository.findAll(pageable);
+        }
+    }
+
+    public Page<Product> fetchProductWithSpec(Pageable pageable, List<String> price){
+        Specification<Product> combinedSpec = (root, query, criteriaBuilder) -> criteriaBuilder.disjunction();
+        int count = 0;
+        for (String p : price) {
+            double min = 0;
+            double max = 0;
+
+            // Set the approriate min and max based on the price range string
+            switch(p){
+                case "10-toi-15-trieu":
+                    min = 10000000;
+                    max = 15000000;
+                    count++;
+                    break;
+                case "15-toi-20-trieu":
+                    min = 15000000;
+                    max = 20000000;
+                    count++;
+                    break;
+                case "20-toi-30-trieu":
+                    min = 20000000;
+                    max = 30000000;
+                    count++;
+                    break;
+            }
+
+            if(min != 0 && max != 0){
+                Specification<Product> rangeSpec = ProductSpecs.matchMultiplePrice(min, max);
+                combinedSpec = combinedSpec.or(rangeSpec);
+            }           
+        }
+
+        if(count == 0){
+            return this.productRepository.findAll(pageable);
+        }
+
+        return this.productRepository.findAll(combinedSpec, pageable);
+    }
+    
+
     public Page<Product> getAllProduct(Pageable pageable) {
         return this.productRepository.findAll(pageable);
     }
 
-    public List<Product> fetchProduct(){
+    public List<Product> fetchProduct() {
         return this.productRepository.findAll();
     }
 
@@ -154,9 +232,9 @@ public class ProductService {
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
             List<CartDetail> cartDetails = cart.getCartDetail();
-            
+
             // Tạo orderDetail
-            
+
             if (cartDetails != null) {
                 // Tạo order
                 Order order = new Order();
@@ -167,7 +245,7 @@ public class ProductService {
                 order.setStatus("PENDING");
 
                 double totalPrice = 0;
-                for(CartDetail cd : cartDetails){
+                for (CartDetail cd : cartDetails) {
                     totalPrice += cd.getPrice() * cd.getQuantity();
                 }
 
