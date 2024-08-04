@@ -36,6 +36,13 @@ public class ProductSpecs {
         return (root, query, criteriaBuilder) -> criteriaBuilder.in(root.get(Product_.FACTORY)).value(factory);
     }
 
+    public static Specification<Product> matchTarget (List<String>target){
+
+        // thuộc tính value của .in() dùng để thêm 1 danh sách vào cần kiểm tra 
+        // .in() kiểm tra xem 1 biểu thức có nằm trong 1 tập hợp giá trị cụ thể hay không
+        return (root, query, criteriaBuilder) -> criteriaBuilder.in(root.get(Product_.TARGET)).value(target);
+    }
+
     public static Specification<Product> rangePrice(double minPrice, double maxPrice){
         return (root, query, criteriaBuilder) -> criteriaBuilder.and(criteriaBuilder.ge(root.get(Product_.PRICE).as(Double.class), minPrice), criteriaBuilder.le(root.get(Product_.PRICE).as(Double.class), maxPrice));
     }

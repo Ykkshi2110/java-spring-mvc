@@ -109,11 +109,11 @@
                                                         <label for="exampleInputTarget" class="form-label">Target:</label>
                                                         <form:select class="form-select" aria-label="Default select example"
                                                             path="target">
-                                                            <form:option value="Gaming">Gaming</form:option>
-                                                            <form:option value="Study">Sinh viên - Văn phòng</form:option>
-                                                            <form:option value="Businessmen">Doanh nhân</form:option>
-                                                            <form:option value="Thin&Light">Mỏng - Nhẹ</form:option>
-                                                            <form:option value="AI">AI</form:option>
+                                                            <form:option value="GAMING">Gaming</form:option>
+                                                            <form:option value="SINHVIEN-VANPHONG">Sinh viên - Văn phòng</form:option>
+                                                            <form:option value="DOANH-NHAN">Doanh nhân</form:option>
+                                                            <form:option value="MONG-NHE">Mỏng - Nhẹ</form:option>
+                                                            <form:option value="THIET-KE-DO-HOA">Thiết kế dồ họa</form:option>
                                                         </form:select>
                                                     </div>
                                                     <div class="col-md-6 col-12 mb-3">

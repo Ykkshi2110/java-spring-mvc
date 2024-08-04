@@ -1,13 +1,12 @@
 package vn.hoidanit.laptopshop.controller.client;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartDetail;
 import vn.hoidanit.laptopshop.domain.Product;
+import vn.hoidanit.laptopshop.domain.Product_;
 import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.domain.dto.ProductCriteriaDTO;
 import vn.hoidanit.laptopshop.service.ProductService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -139,61 +140,48 @@ public class ItemsController {
     }
 
     @GetMapping("/products")
-    public String getShopPage(Model model, @RequestParam("page") Optional<String> pageOptional,
-            @RequestParam("name") Optional<String> nameOptional,
-            @RequestParam("min-price") Optional<Double> priceOptional,
-            @RequestParam("max-price") Optional<Double> priceOptional2,
-            @RequestParam("factory") Optional<String> factoryNameOptional,
-            @RequestParam("price") Optional<String> price) {
+    public String getProductPage(Model model,
+           ProductCriteriaDTO productCriteriaDTO,
+           HttpServletRequest request) {
         int page = 1;
         try {
-            if (pageOptional.isPresent()) {
-                page = Integer.parseInt(pageOptional.get());
+            if (productCriteriaDTO.getPage().isPresent()) {
+                page = Integer.parseInt(productCriteriaDTO.getPage().get());
+            } else {
+                // page = 1
             }
         } catch (Exception e) {
             // TODO: handle exception
         }
 
-        Pageable pageable = PageRequest.of(page - 1, 6);
+        Pageable pageable = PageRequest.of(page - 1, 3);
+        if(productCriteriaDTO.getSort() != null && productCriteriaDTO.getSort().isPresent()){
+            String sort = productCriteriaDTO.getSort().get();
+            if(sort.equals("gia-tang-dan")){
+                // số trang trong Spring Data JPA bắt đầu từ 0 
+                pageable = PageRequest.of(page - 1, 3, Sort.by(Product_.PRICE).ascending());
+            } else if(sort.equals("gia-giam-dan")){
+                pageable = PageRequest.of(page - 1, 3, Sort.by(Product_.PRICE).descending());
+            } else {
+                pageable = PageRequest.of(page - 1, 3);
+            }
+        }
 
         // Câu điều kiện nếu client truyền vào name thì lấy data bằng .get() ngược
         // lại gán bằng chuỗi rỗng
 
-        
-        // String name = nameOptional.isPresent() ? nameOptional.get() : " ";
-        // Page<Product> products = this.productService.getAllProductWithSpec( pageable,
-        // name);
+        Page<Product> products = this.productService.getAllProductWithSpec(pageable, productCriteriaDTO);
+        List<Product> listProduct = products.getContent().size() > 0 ? products.getContent() : new ArrayList<Product>();
 
-        // case 1
-        // double minPrice = priceOptional.isPresent() ? priceOptional.get() : 0;
-        // Page<Product> products =
-        // this.productService.getAllProductWithMinPrice(pageable, minPrice);
-
-        // case 2
-        // double maxPrice = priceOptional2.isPresent() ? priceOptional2.get() : Double.MAX_VALUE;
-        // Page<Product> products = this.productService.getAllProductWithMaxPrice(pageable, maxPrice);
-
-        // case 3
-        // String factoryName = factoryNameOptional.isPresent() ? factoryNameOptional.get() : null;
-        // Page<Product> products = this.productService.getAllProductWithFactory(pageable, factoryName);
-
-        // case 4
-        // asList chuyển mảng thành danh sách
-        // List<String> factory = Arrays.asList(factoryNameOptional.get().split(","));
-        // Page<Product> products = this.productService.getAllProductWithListFactory(pageable, factory);
-
-        // case 5
-        // String rangePrice = price.isPresent() ? price.get() : " ";
-        // Page<Product> products = this.productService.getProductInRangePrice(pageable, rangePrice);
-        
-        //case 6
-        List<String> rangePrice = Arrays.asList(price.get().split(","));
-        Page<Product> products = this.productService.fetchProductWithSpec(pageable, rangePrice);
-
-        List<Product> listProduct = products.getContent();
+        String qs = request.getQueryString();
+        if(qs != null && !qs.isBlank()){
+            // remove page
+            qs = qs.replace("page=" + page, "");
+        }
         model.addAttribute("products", listProduct);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", products.getTotalPages());
+        model.addAttribute("queryString", qs);
         return "client/product/show";
     }
 

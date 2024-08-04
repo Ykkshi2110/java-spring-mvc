@@ -14,7 +14,7 @@ import vn.hoidanit.laptopshop.domain.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
     Product save(Product laptop);
-    Page<Product> findAll(Specification<Product> spec,Pageable pageable);
+    Page<Product> findAll(Specification<Product> spec, Pageable pageable);
     Optional<Product> findById(long id);
     Product findByImage(String image);
     Product deleteById(long id);
